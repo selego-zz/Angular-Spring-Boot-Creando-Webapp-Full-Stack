@@ -12,5 +12,15 @@ import { CommonModule } from '@angular/common';
 export class AppComponent {
   title = 'Hola Mundo angular';
   users = ['Pepe', 'Maria', 'Juan', 'Andres'];
-  usersEmpty: string[] = [];
+  visible: boolean = false;
+  buttonTitle = 'Mostrar';
+
+  setVisible(): void {
+    this.visible = !this.visible;
+    if (this.visible) {
+      this.buttonTitle = 'Ocultar';
+    } else {
+      this.buttonTitle = 'Mostrar';
+    }
+  }
 }

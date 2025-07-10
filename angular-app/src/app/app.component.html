@@ -11,42 +11,26 @@
   <h2>Hola! hola!</h2>
   <h3> {{title}} </h3>
 
-  <div *ngIf="users.length">
-    <h3>Users</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users; index as i">
-          <td> {{i+1}} </td>
-          <td> {{user}} </td>
-        </tr>
-      </tbody>
-    </table>
+  <button (click)="setVisible()"> {{buttonTitle}} </button>
+  <div *ngIf="visible">
+    <div *ngIf="users.length">
+      <h3>Users</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>id</th>
+            <th>name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users; index as i">
+            <td> {{i+1}} </td>
+            <td> {{user}} </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
-
-  <div *ngIf="usersEmpty?.length else isEmpty">
-    <h3>Users Empty</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>name</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of usersEmpty; index as i">
-          <td> {{i+1}} </td>
-          <td> {{user}} </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-  <ng-template #isEmpty>No hay alternativos</ng-template>
 
 </body>
 
