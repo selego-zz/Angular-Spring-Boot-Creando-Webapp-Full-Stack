@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { CounterComponent } from './counter/counter.component';
 
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [CommonModule],
+  imports: [CommonModule, CounterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
