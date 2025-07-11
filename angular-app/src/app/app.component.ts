@@ -11,9 +11,11 @@ import { CounterComponent } from './counter/counter.component';
 })
 export class AppComponent {
   title = 'Hola Mundo angular';
+  subtitle = 'Counterhijo';
   users = ['Pepe', 'Maria', 'Juan', 'Andres'];
   visible: boolean = false;
   buttonTitle = 'Mostrar';
+  contadorEnPadre: number = 0;
 
   setVisible(): void {
     this.visible = !this.visible;
@@ -28,5 +30,8 @@ export class AppComponent {
   }
   quitarDatos(): void {
     this.users = [];
+  }
+  setFatherCounter($event: number): void {
+    this.contadorEnPadre = $event;
   }
 }

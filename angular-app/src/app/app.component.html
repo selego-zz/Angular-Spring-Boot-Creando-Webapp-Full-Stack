@@ -13,6 +13,8 @@
   <button (click)="ponerDatos()"> "Poner Datos" </button>
   <button (click)="quitarDatos()"> "Quitar Datos" </button>
 
+  <p>Se han producido {{contadorEnPadre}} visitas</p>
+
   @if (visible) {
   <h2> {{title}} </h2>
   @if(users != undefined && users.length) {
@@ -40,7 +42,7 @@
   <h2>Lo sentimos, datos no disponibles</h2>
   }
 
-  <app-counter></app-counter>
+  <app-counter [title]="subtitle" (counterEmitter)="setFatherCounter($event)"></app-counter>
 </body>
 
 </html>
