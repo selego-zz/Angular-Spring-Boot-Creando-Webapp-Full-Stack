@@ -17,7 +17,7 @@ export const invoiceData: Invoice = {
     name: 'New Age',
     fiscalNumber: 32132152,
   },
-  total(): number {
+  total: function () {
     return this.items?.reduce((acc, item) => acc + item.total(), 0);
   },
   items: [

@@ -15,4 +15,5 @@
 
   <list-items class="card p-3" [items]="invoice.items" (removeEventEmitter)="removeItem($event)" />
   <total class="card p-3" [total]="invoice.total()" />
+  <form-item (addItemEventEmitter)="addItem($event)"></form-item>
 </div>
