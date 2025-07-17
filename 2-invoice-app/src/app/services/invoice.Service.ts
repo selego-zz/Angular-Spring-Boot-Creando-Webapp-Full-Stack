@@ -11,4 +11,13 @@ export class InvoiceService {
   getInvoice(): Invoice {
     return this.invoice;
   }
+
+  getTotal(): number {
+    return this.invoice.items.reduce((acc, item) => acc + item.total(), 0);
+  }
+
+  deleteItem(id: number): Invoice {
+    this.invoice.items = this.invoice.items.filter((item) => item.id != id);
+    return this.invoice;
+  }
 }
