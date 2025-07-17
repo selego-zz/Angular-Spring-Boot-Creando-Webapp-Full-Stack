@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="card my-3">
+    <div class="card-header">
+      <h2>Ejemplo Factura</h2>
+    </div>
+
+    <div class="card-body">
+      <invoice-view [id]="invoice.id" [name]="invoice.name" />
+      <div class=" row my-3">
+        <client-view class="col" [client]="invoice.client" />
+        <company-view class="col" [company]="invoice.company" />
+      </div>
+    </div>
+  </div>
+
+  <list-items class="card p-3" [items]="invoice.items" (removeEventEmitter)="removeItem($event)" />
+  <total class="card p-3" [total]="invoice.total()" />
+</div>
