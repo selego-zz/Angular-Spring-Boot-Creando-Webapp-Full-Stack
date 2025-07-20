@@ -1,0 +1,7 @@
+<td> {{item.product.name}} </td>
+<td> {{item.product.price}} </td>
+<td> {{item.quantity}} </td>
+<td> {{item.product.price * item.quantity}} </td>
+<td> <button class="btn btn-primary" (click)="addProduct(item.product.id)">+</button> </td>
+<td> <button class="btn btn-primary" (click)="reduceProduct(item.product.id)">-</button> </td>
+<td> <button class="btn btn-primary" (click)="removeProduct(item.product.id)">Eliminar</button> </td>

@@ -1,0 +1,4 @@
+<h2>Catálogo de productos App!</h2>
+<catalog [products]="products" (addEventEmitter)="addProduct($event)" />
+<cart [items]="items" (addEventEmitter)="addProduct($event)" (reduceEventEmitter)="reduceProduct($event)"
+  (removeEventEmitter)="removeProduct($event)" />

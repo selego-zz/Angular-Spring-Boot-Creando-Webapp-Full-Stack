@@ -1,0 +1,22 @@
+<h2>Carro de la compra!</h2>
+
+@if (items.length > 0) {
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th>Producto</th>
+      <th>Precio</th>
+      <th>Cantidad</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of items; track $index) {
+    <tr cart-item [item]="item" (addEventEmitter)="addProduct($event)" (reduceEventEmitter)="reduceProduct($event)"
+      (removeEventEmitter)="removeProduct($event)">
+      }
+  </tbody>
+</table>
+} @else {
+<h4>En estos momentos el carro de la compra está vacío</h4>
+}
