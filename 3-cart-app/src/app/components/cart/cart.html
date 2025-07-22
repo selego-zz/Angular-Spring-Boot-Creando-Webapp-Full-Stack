@@ -16,7 +16,14 @@
       (removeEventEmitter)="removeProduct($event)">
       }
   </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3" class="text-end fw-bold">Total</td>
+      <td class="fw-bold"> {{total}} </td>
+    </tr>
+  </tfoot>
 </table>
+
 } @else {
 <h4>En estos momentos el carro de la compra está vacío</h4>
 }

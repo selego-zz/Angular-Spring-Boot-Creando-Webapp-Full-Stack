@@ -9,6 +9,7 @@ import { CartItemComponent } from '../cart-item/cart-item';
 })
 export class CartComponent {
   @Input() items: CartItem[] = [];
+  @Input() total: number = 0;
   @Output() addEventEmitter: EventEmitter<number> = new EventEmitter();
   @Output() reduceEventEmitter: EventEmitter<number> = new EventEmitter();
   @Output() removeEventEmitter: EventEmitter<number> = new EventEmitter();
