@@ -1,14 +1,16 @@
-<h2>Catálogo de productos App!</h2>
-<button class="btn btn-sm" (click)="showCart=!showCart"> {{showCart?'Ocultar':'Mostrar'}} carro {{'(' + items.length +
-  ')'}} </button>
-<div class="row">
-  <div [className]="showCart?'col-8':'col'">
-    <catalog [products]="products" (addEventEmitter)="addProduct($event)" />
+<navbar [length]="items.length" (show)="showCart=$event"></navbar>
+<div class="container my-4">
+  <h2>Catálogo de productos App!</h2>
+  <button class="btn btn-sm" (click)="showCart=!showCart"> {{showCart?'Ocultar':'Mostrar'}} carro </button>
+  <div class="row">
+    <div [className]="showCart?'col-8':'col'">
+      <catalog [products]="products" (addEventEmitter)="addProduct($event)" />
+    </div>
+    @if(showCart){
+    <div class="col-4">
+      <cart [total]="total" [items]="items" (addEventEmitter)="addProduct($event)"
+        (reduceEventEmitter)="reduceProduct($event)" (removeEventEmitter)="removeProduct($event)" />
+    </div>
+    }
   </div>
-  @if(showCart){
-  <div class="col-4">
-    <cart [total]="total" [items]="items" (addEventEmitter)="addProduct($event)"
-      (reduceEventEmitter)="reduceProduct($event)" (removeEventEmitter)="removeProduct($event)" />
-  </div>
-  }
 </div>
