@@ -45,10 +45,10 @@ export class ProductService {
   }
 
   removeProduct(id: number) {
-    this.cart.splice(
-      this.cart.findIndex((item) => item.product.id != id) - 1,
-      1
-    );
+    const index = this.cart.findIndex((item) => item.product.id === id);
+    if (index > -1) {
+      this.cart.splice(index, 1);
+    }
     sessionStorage.setItem(this.nombreStorage, JSON.stringify(this.cart));
   }
 }
