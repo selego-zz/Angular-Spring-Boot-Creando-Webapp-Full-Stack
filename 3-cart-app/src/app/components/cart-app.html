@@ -1,4 +1,4 @@
-<navbar [length]="items.length" (show)="showCart=$event"></navbar>
+<navbar [length]="items.length" (show)="showCart=!showCart"></navbar>
 <div class="container my-4">
   <h2>Catálogo de productos App!</h2>
   <button class="btn btn-sm" (click)="showCart=!showCart"> {{showCart?'Ocultar':'Mostrar'}} carro </button>

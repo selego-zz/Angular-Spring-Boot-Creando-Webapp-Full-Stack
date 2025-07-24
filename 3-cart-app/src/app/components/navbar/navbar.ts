@@ -9,10 +9,7 @@ export class Navbar {
   @Input() length: number = 0;
   @Output() show = new EventEmitter();
 
-  hideCart(): void {
-    this.show.emit(false);
-  }
   showCart(): void {
-    this.show.emit(true);
+    this.show.emit();
   }
 }
