@@ -22,7 +22,7 @@ export class ProductService {
     return this.cart;
   }
 
-  addProduct(id: number): void {
+  addProduct(id: number): CartItem[] {
     const elemet = this.cart.find((item) => item.product.id === id);
     if (elemet) {
       elemet.quantity++;
@@ -34,21 +34,24 @@ export class ProductService {
       this.cart.push(cartItem);
     }
     sessionStorage.setItem(this.nombreStorage, JSON.stringify(this.cart));
+    return [...this.cart];
   }
 
-  reduceProduct(id: number) {
+  reduceProduct(id: number): CartItem[] {
     const elemet = this.cart.find((item) => item.product.id === id);
-    if (!elemet) return;
+    if (!elemet) return this.cart;
     if (elemet.quantity <= 1) this.removeProduct(id);
     else elemet.quantity--;
     sessionStorage.setItem(this.nombreStorage, JSON.stringify(this.cart));
+    return [...this.cart];
   }
 
-  removeProduct(id: number) {
+  removeProduct(id: number): CartItem[] {
     const index = this.cart.findIndex((item) => item.product.id === id);
     if (index > -1) {
       this.cart.splice(index, 1);
     }
     sessionStorage.setItem(this.nombreStorage, JSON.stringify(this.cart));
+    return [...this.cart];
   }
 }

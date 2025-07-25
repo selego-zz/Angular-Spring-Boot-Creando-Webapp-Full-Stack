@@ -1,29 +1,20 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CartItem } from '../../models/cartItem';
-import { CartItemComponent } from '../cart-item/cart-item';
+import { CartComponent } from '../cart/cart';
 
 @Component({
-  selector: 'cart',
-  imports: [CartItemComponent],
-  templateUrl: './cart.html',
+  selector: 'cart-modal',
+  imports: [CartComponent],
+  templateUrl: './cart-modal.html',
 })
-export class CartComponent implements OnChanges {
+export class CartModalComponent {
+  //  @Input() total: number = 0;
   @Input() items: CartItem[] = [];
-  total: number = 0;
+
   @Output() addEventEmitter: EventEmitter<number> = new EventEmitter();
   @Output() reduceEventEmitter: EventEmitter<number> = new EventEmitter();
   @Output() removeEventEmitter: EventEmitter<number> = new EventEmitter();
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.calculateTotal();
-  }
+  @Output() hideEventEmitter: EventEmitter<number> = new EventEmitter();
 
   addProduct(id: number) {
     this.addEventEmitter.emit(id);
@@ -34,10 +25,7 @@ export class CartComponent implements OnChanges {
   removeProduct(id: number) {
     this.removeEventEmitter.emit(id);
   }
-  calculateTotal() {
-    this.total = this.items.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
+  hide(): void {
+    this.hideEventEmitter.emit();
   }
 }
