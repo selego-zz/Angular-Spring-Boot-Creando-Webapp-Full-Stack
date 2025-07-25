@@ -6,8 +6,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="hide()"></button>
       </div>
       <div class="modal-body">
-        <cart [total]="total" [items]="items" (addEventEmitter)="addProduct($event)"
-          (reduceEventEmitter)="reduceProduct($event)" (removeEventEmitter)="removeProduct($event)" />
+        <cart [items]="items" (addEventEmitter)="addProduct($event)" (reduceEventEmitter)="reduceProduct($event)"
+          (removeEventEmitter)="removeProduct($event)" />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="hide()">Close</button>

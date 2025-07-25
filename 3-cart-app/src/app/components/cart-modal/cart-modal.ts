@@ -8,7 +8,7 @@ import { CartComponent } from '../cart/cart';
   templateUrl: './cart-modal.html',
 })
 export class CartModalComponent {
-  @Input() total: number = 0;
+  //  @Input() total: number = 0;
   @Input() items: CartItem[] = [];
 
   @Output() addEventEmitter: EventEmitter<number> = new EventEmitter();

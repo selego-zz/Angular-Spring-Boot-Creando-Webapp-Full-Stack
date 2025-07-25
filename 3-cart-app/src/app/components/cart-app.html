@@ -4,8 +4,7 @@
   <button class="btn btn-sm" (click)="showCart=!showCart"> {{showCart?'Ocultar':'Mostrar'}} carro </button>
   <catalog [products]="products" (addEventEmitter)="addProduct($event)" />
   @if(showCart){
-  <cart-modal [items]="items" [total]="total" (addEventEmitter)="addProduct($event)"
-    (reduceEventEmitter)="reduceProduct($event)" (removeEventEmitter)="removeProduct($event)"
-    (hideEventEmitter)="showCart=false"></cart-modal>
+  <cart-modal [items]="items" (addEventEmitter)="addProduct($event)" (reduceEventEmitter)="reduceProduct($event)"
+    (removeEventEmitter)="removeProduct($event)" (hideEventEmitter)="showCart=false"></cart-modal>
   }
 </div>
