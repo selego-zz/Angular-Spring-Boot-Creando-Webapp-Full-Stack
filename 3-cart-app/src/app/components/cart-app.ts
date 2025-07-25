@@ -15,7 +15,7 @@ export class CartAppComponent implements OnInit {
   products: Product[] = [];
   items: CartItem[] = [];
   //  total: number = 0;
-  showCart: boolean = true;
+  showCart: boolean = false;
 
   constructor(private readonly service: ProductService) {}
 
