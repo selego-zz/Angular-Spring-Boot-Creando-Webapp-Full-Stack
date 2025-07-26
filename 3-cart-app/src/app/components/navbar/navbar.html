@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <button class="btn text-bg-dark" aria-current="page">Home</button>
+          <a [routerLink]="['/catalog']" [state]="{products}" class="nav-link active" aria-current="page">Home</a>
         </li>
         <li class="nav-item">
-          <button class="btn text-bg-dark" (click)="showCart()">Cart ({{length}})</button>
+          <a [routerLink]="['/cart']" [state]="{ items: items, total }" class="nav-link">Cart ({{items.length}})</a>
         </li>
       </ul>
     </div>
