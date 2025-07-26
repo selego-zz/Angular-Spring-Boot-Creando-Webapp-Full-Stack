@@ -1,43 +1,42 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CartItem } from '../../models/cartItem';
 import { CartItemComponent } from '../cart-item/cart-item';
+import { Router } from '@angular/router';
+import { SharingDataService } from '../../services/sharing-data';
 
 @Component({
   selector: 'cart',
   imports: [CartItemComponent],
   templateUrl: './cart.html',
 })
-export class CartComponent implements OnChanges {
-  @Input() items: CartItem[] = [];
+export class CartComponent implements OnInit {
+  items: CartItem[] = [];
   total: number = 0;
-  @Output() addEventEmitter: EventEmitter<number> = new EventEmitter();
-  @Output() reduceEventEmitter: EventEmitter<number> = new EventEmitter();
-  @Output() removeEventEmitter: EventEmitter<number> = new EventEmitter();
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.calculateTotal();
+  constructor(
+    private readonly sharingDataService: SharingDataService,
+    private readonly router: Router
+  ) {
+    this.items = this.router.getCurrentNavigation()?.extras.state!['items'];
+    this.total = this.router.getCurrentNavigation()?.extras.state!['total'];
+  }
+  ngOnInit(): void {
+    this.getTotal();
+  }
+
+  getTotal() {
+    this.sharingDataService.totalEventEmitter.subscribe((total) => {
+      this.total = total;
+    });
   }
 
   addProduct(id: number) {
-    this.addEventEmitter.emit(id);
+    this.sharingDataService.addEventEmitter.emit(id);
   }
   reduceProduct(id: number) {
-    this.reduceEventEmitter.emit(id);
+    this.sharingDataService.reduceEventEmitter.emit(id);
   }
   removeProduct(id: number) {
-    this.removeEventEmitter.emit(id);
-  }
-  calculateTotal() {
-    this.total = this.items.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
+    this.sharingDataService.removeEventEmitter.emit(id);
   }
 }

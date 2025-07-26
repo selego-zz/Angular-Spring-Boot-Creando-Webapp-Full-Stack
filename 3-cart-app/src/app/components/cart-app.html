@@ -1,10 +1,4 @@
-<navbar [length]="items.length" (show)="showCart=!showCart"></navbar>
+<navbar [items]="items" [total]="total" [products]="products"></navbar>
 <div class="container my-4">
-  <h2>Catálogo de productos App!</h2>
-  <button class="btn btn-sm" (click)="showCart=!showCart"> {{showCart?'Ocultar':'Mostrar'}} carro </button>
-  <catalog [products]="products" (addEventEmitter)="addProduct($event)" />
-  @if(showCart){
-  <cart-modal [items]="items" (addEventEmitter)="addProduct($event)" (reduceEventEmitter)="reduceProduct($event)"
-    (removeEventEmitter)="removeProduct($event)" (hideEventEmitter)="showCart=false"></cart-modal>
-  }
+  <router-outlet></router-outlet>
 </div>
