@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../services/product';
-import { Product } from '../models/product';
 import { CartItem } from '../models/cartItem';
 import { Navbar } from './navbar/navbar';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { SharingDataService } from '../services/sharing-data';
+
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'cart-app',
@@ -12,17 +13,16 @@ import { SharingDataService } from '../services/sharing-data';
   templateUrl: './cart-app.html',
 })
 export class CartAppComponent implements OnInit {
-  products: Product[] = [];
   items: CartItem[] = [];
   total: number = 0;
 
   constructor(
+    private readonly router: Router,
     private readonly sharingDataService: SharingDataService,
     private readonly service: ProductService
   ) {}
 
   ngOnInit(): void {
-    this.products = this.service.findAll();
     this.items = this.service.getCart();
     this.calculateTotal();
 
@@ -37,6 +37,16 @@ export class CartAppComponent implements OnInit {
 
       this.items = this.service.addProduct(id);
       this.calculateTotal();
+
+      this.router.navigate(['/cart'], {
+        state: { items: this.items, total: this.total },
+      });
+
+      Swal.fire({
+        title: 'Shopping cart',
+        text: 'Producto añadido',
+        icon: 'success',
+      });
     });
   }
 
@@ -48,8 +58,32 @@ export class CartAppComponent implements OnInit {
   }
   removeProduct() {
     this.sharingDataService.removeEventEmitter.subscribe((id) => {
-      this.items = this.service.removeProduct(id);
-      this.calculateTotal();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.items = this.service.removeProduct(id);
+          this.calculateTotal();
+          Swal.fire({
+            title: 'Deleted!',
+            text: 'Your file has been deleted.',
+            icon: 'success',
+          });
+          this.router
+            .navigateByUrl('/', { skipLocationChange: true })
+            .then(() => {
+              this.router.navigate(['/cart'], {
+                state: { items: this.items, total: this.total },
+              });
+            });
+        }
+      });
     });
   }
   calculateTotal() {
