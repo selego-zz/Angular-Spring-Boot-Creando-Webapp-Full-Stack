@@ -1,10 +1,10 @@
-@if (items.length > 0) {
 <div class="card">
   <div class="card-content">
     <div class="card-header">
       <h5 class="card-title">Carro de la compra</h5>
     </div>
     <div class="card-body">
+      @if (items.length > 0) {
       <table class="table table-hover table-striped">
         <thead>
           <tr>
@@ -29,10 +29,9 @@
           </tr>
         </tfoot>
       </table>
+      } @else {
+      <h4 class="alert alert-warning">En estos momentos el carro de la compra está vacío</h4>
+      }
     </div>
   </div>
 </div>
-
-} @else {
-<h4>En estos momentos el carro de la compra está vacío</h4>
-}

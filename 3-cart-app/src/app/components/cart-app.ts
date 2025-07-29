@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../services/product';
-import { Product } from '../models/product';
 import { CartItem } from '../models/cartItem';
 import { Navbar } from './navbar/navbar';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 import { SharingDataService } from '../services/sharing-data';
 
 @Component({
@@ -12,17 +11,16 @@ import { SharingDataService } from '../services/sharing-data';
   templateUrl: './cart-app.html',
 })
 export class CartAppComponent implements OnInit {
-  products: Product[] = [];
   items: CartItem[] = [];
   total: number = 0;
 
   constructor(
+    private readonly router: Router,
     private readonly sharingDataService: SharingDataService,
     private readonly service: ProductService
   ) {}
 
   ngOnInit(): void {
-    this.products = this.service.findAll();
     this.items = this.service.getCart();
     this.calculateTotal();
 
@@ -37,6 +35,10 @@ export class CartAppComponent implements OnInit {
 
       this.items = this.service.addProduct(id);
       this.calculateTotal();
+
+      this.router.navigate(['/cart'], {
+        state: { items: this.items, total: this.total },
+      });
     });
   }
 
@@ -50,6 +52,12 @@ export class CartAppComponent implements OnInit {
     this.sharingDataService.removeEventEmitter.subscribe((id) => {
       this.items = this.service.removeProduct(id);
       this.calculateTotal();
+
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/cart'], {
+          state: { items: this.items, total: this.total },
+        });
+      });
     });
   }
   calculateTotal() {

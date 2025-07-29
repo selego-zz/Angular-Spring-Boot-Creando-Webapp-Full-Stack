@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CartItem } from '../../models/cartItem';
-import { Product } from '../../models/product';
 
 @Component({
   selector: 'navbar',
@@ -10,6 +9,5 @@ import { Product } from '../../models/product';
 })
 export class Navbar {
   @Input() items: CartItem[] = [];
-  @Input() products: Product[] = [];
   @Input() total: number = 0;
 }
