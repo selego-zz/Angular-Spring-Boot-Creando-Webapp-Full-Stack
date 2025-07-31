@@ -3,4 +3,4 @@
 <button (click)="increment()">Increment</button>
 <button (click)="decrement()">Derement</button>
 <button (click)="reset()">Reset</button>
-<div>Contador Actual: {{contador}} </div>
+<div>Contador Actual: {{ contador$ | async }} </div>
