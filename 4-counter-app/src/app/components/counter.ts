@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { decrement, increment, reset } from '../store/items.action';
 import { selectCounter } from '../store/item.selectors';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
 
 @Component({
@@ -18,10 +18,10 @@ export class CounterComponent {
   }
 
   increment(): void {
-    this.store.dispatch(increment()); //ojo: importarlo del items.action
+    this.store.dispatch(increment({ term: 5 })); //ojo: importarlo del items.action
   }
   decrement(): void {
-    this.store.dispatch(decrement());
+    this.store.dispatch(decrement({ term: 3 }));
   }
   reset(): void {
     this.store.dispatch(reset());
