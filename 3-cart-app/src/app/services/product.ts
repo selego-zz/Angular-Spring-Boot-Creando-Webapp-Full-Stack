@@ -19,8 +19,8 @@ export class ProductService {
   findAll(): Observable<Product[]> {
     return of(products);
   }
-  getCart(): CartItem[] {
-    return this.cart;
+  getCart(): Observable<CartItem[]> {
+    return of(this.cart);
   }
 
   saveCart(newCart: CartItem[]) {

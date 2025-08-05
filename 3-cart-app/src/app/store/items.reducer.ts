@@ -3,6 +3,7 @@ import { CartItem } from '../models/cartItem';
 import {
   addItem,
   initializeState,
+  loadCart,
   reduceItem,
   removeItem,
   total,
@@ -18,10 +19,15 @@ export const initialState: ItemsState = {
   total: 0,
 };
 
-//estas funciones debería realizarlas, y las realiza, el servicio, llamando al store solo para grabar
-// las pongo duplicadas aquí para practicar el manejo de datos
 export const itemsReducer = createReducer(
   initialState,
+
+  on(loadCart, (state, payload) => {
+    return {
+      items: [...state.items],
+      total: state.total,
+    };
+  }),
   on(initializeState, (state, payload) => {
     return {
       items: payload.items,

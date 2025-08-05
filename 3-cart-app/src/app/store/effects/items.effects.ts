@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ProductService } from '../../services/product';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { exhaustMap, map, tap } from 'rxjs';
-import { initializeState, loadCart, saveCart } from '../items.actions';
+import { exhaustMap, map } from 'rxjs';
+import { initializeState, loadCart } from '../items.actions';
 import { CartItem } from '../../models/cartItem';
 
 @Injectable()
@@ -24,7 +24,7 @@ export class ItemsEffects {
     )
   );
 
-  saveCartToService$ = createEffect(
+  /*  saveCartToService$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(saveCart),
@@ -32,7 +32,7 @@ export class ItemsEffects {
       ),
     { dispatch: false }
   );
-
+*/
   constructor(
     private readonly actions$: Actions,
     private readonly service: ProductService

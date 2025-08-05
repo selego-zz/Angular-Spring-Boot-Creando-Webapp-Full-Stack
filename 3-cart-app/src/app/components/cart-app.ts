@@ -12,6 +12,7 @@ import { selectItems, selectTotal } from '../store/items.selectors';
 import {
   addItem,
   initializeState,
+  loadCart,
   reduceItem,
   removeItem,
   total,
@@ -38,13 +39,8 @@ export class CartAppComponent implements OnInit {
     private readonly store: Store<{ item: ItemsState }>,
     private readonly catalog: Store
   ) {
-    const items = service.getCart();
-    const totalCart = items.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
-
-    this.store.dispatch(initializeState({ items: items, total: totalCart }));
+    //    this.store.dispatch(initializeState({ items: items, total: totalCart }));
+    this.catalog.dispatch(loadCart());
     this.catalog.dispatch(load());
     this.items$ = this.store.select(selectItems);
     this.total$ = this.store.select(selectTotal);

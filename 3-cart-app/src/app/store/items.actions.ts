@@ -2,6 +2,7 @@ import { createAction, props } from '@ngrx/store';
 import { Product } from '../models/product';
 import { CartItem } from '../models/cartItem';
 
+export const loadCart = createAction('loadCart');
 export const initializeState = createAction(
   'initializeState',
   props<{ items: CartItem[]; total: number }>()
