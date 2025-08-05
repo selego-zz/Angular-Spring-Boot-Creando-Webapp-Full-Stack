@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { products } from '../data/product.data';
 import { CartItem } from '../models/cartItem';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +16,8 @@ export class ProductService {
     this.cart = data ? JSON.parse(data) : [];
   }
 
-  findAll(): Product[] {
-    return products;
+  findAll(): Observable<Product[]> {
+    return of(products);
   }
   getCart(): CartItem[] {
     return this.cart;

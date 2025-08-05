@@ -19,6 +19,7 @@ import {
 import { Product } from '../models/product';
 import { selectProductById } from '../store/catalog.selectors';
 import { initializeCatalog } from '../store/catalog.actions';
+import { load } from '../store/catalog.actions';
 import { ItemsState } from '../store/items.reducer';
 
 @Component({
@@ -38,17 +39,18 @@ export class CartAppComponent implements OnInit {
     private readonly catalog: Store
   ) {
     const items = service.getCart();
-    const total = items.reduce(
+    const totalCart = items.reduce(
       (acc, item) => acc + item.product.price * item.quantity,
       0
     );
 
-    this.catalog.dispatch(initializeCatalog({ products: service.findAll() }));
-    this.store.dispatch(initializeState({ items: items, total: total }));
+    this.store.dispatch(initializeState({ items: items, total: totalCart }));
+    this.catalog.dispatch(load());
     this.items$ = this.store.select(selectItems);
     this.total$ = this.store.select(selectTotal);
     this.items$.subscribe((items) => {
       this.service.saveCart(items);
+      this.store.dispatch(total());
     });
   }
 
@@ -67,16 +69,14 @@ export class CartAppComponent implements OnInit {
       product$.pipe(take(1)).subscribe((product: Product | undefined) => {
         if (product) this.store.dispatch(addItem({ product }));
       });
-      this.store.dispatch(total());
 
-      this.router.navigate(['/cart'], {});
+      this.router.navigate(['/cart']);
     });
   }
 
   reduceProduct() {
     this.sharingDataService.reduceEventEmitter.subscribe((id: number) => {
       this.store.dispatch(reduceItem({ id }));
-      this.store.dispatch(total());
     });
   }
   removeProduct() {
@@ -92,17 +92,12 @@ export class CartAppComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           this.store.dispatch(removeItem({ id }));
-          this.store.dispatch(total());
           Swal.fire({
             title: 'Deleted!',
             text: 'Your file has been deleted.',
             icon: 'success',
           });
-          this.router
-            .navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate(['/cart'], {});
-            });
+          this.router.navigate(['/cart']);
         }
       });
     });
