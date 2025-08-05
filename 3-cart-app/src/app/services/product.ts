@@ -22,6 +22,10 @@ export class ProductService {
     return this.cart;
   }
 
+  saveCart(newCart: CartItem[]) {
+    sessionStorage.setItem(this.nombreStorage, JSON.stringify(newCart));
+  }
+
   addProduct(id: number): CartItem[] {
     const elemet = this.cart.find((item) => item.product.id === id);
     if (elemet) {
