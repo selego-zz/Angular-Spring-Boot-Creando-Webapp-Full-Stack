@@ -15,7 +15,7 @@ import {
   loadCart,
   reduceItem,
   removeItem,
-  total,
+  saveCart,
 } from '../store/items.actions';
 import { Product } from '../models/product';
 import { selectProductById } from '../store/catalog.selectors';
@@ -40,13 +40,12 @@ export class CartAppComponent implements OnInit {
     private readonly catalog: Store
   ) {
     //    this.store.dispatch(initializeState({ items: items, total: totalCart }));
-    this.catalog.dispatch(loadCart());
+    this.store.dispatch(loadCart());
     this.catalog.dispatch(load());
     this.items$ = this.store.select(selectItems);
     this.total$ = this.store.select(selectTotal);
     this.items$.subscribe((items) => {
-      this.service.saveCart(items);
-      this.store.dispatch(total());
+      this.store.dispatch(saveCart());
     });
   }
 

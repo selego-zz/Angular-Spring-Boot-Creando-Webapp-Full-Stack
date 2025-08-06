@@ -20,10 +20,13 @@ export class ProductService {
     return of(products);
   }
   getCart(): Observable<CartItem[]> {
-    return of(this.cart);
+    console.log('loadCart');
+    const data = sessionStorage.getItem(this.nombreStorage);
+    const cart = data ? JSON.parse(data) : [];
+    return of(cart);
   }
-
   saveCart(newCart: CartItem[]) {
+    console.log('saveCart');
     sessionStorage.setItem(this.nombreStorage, JSON.stringify(newCart));
   }
 
