@@ -1,13 +1,19 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
 import { CartItem } from '../../models/cartItem';
+import { Store } from '@ngrx/store';
+import { selectItems } from '../../store/items.selectors';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'navbar',
-  imports: [RouterModule],
+  imports: [RouterModule, AsyncPipe],
   templateUrl: './navbar.html',
 })
 export class Navbar {
-  @Input() items: CartItem[] = [];
-  @Input() total: number = 0;
+  items$: Observable<CartItem[]>;
+  constructor(private readonly store: Store) {
+    this.items$ = this.store.select(selectItems);
+  }
 }

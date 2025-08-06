@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { products } from '../data/product.data';
 import { CartItem } from '../models/cartItem';
-import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -16,18 +15,11 @@ export class ProductService {
     this.cart = data ? JSON.parse(data) : [];
   }
 
-  findAll(): Observable<Product[]> {
-    return of(products);
+  findAll(): Product[] {
+    return products;
   }
-  getCart(): Observable<CartItem[]> {
-    console.log('loadCart');
-    const data = sessionStorage.getItem(this.nombreStorage);
-    const cart = data ? JSON.parse(data) : [];
-    return of(cart);
-  }
-  saveCart(newCart: CartItem[]) {
-    console.log('saveCart');
-    sessionStorage.setItem(this.nombreStorage, JSON.stringify(newCart));
+  getCart(): CartItem[] {
+    return this.cart;
   }
 
   addProduct(id: number): CartItem[] {

@@ -6,6 +6,22 @@ import { Router, RouterOutlet } from '@angular/router';
 import { SharingDataService } from '../services/sharing-data';
 
 import Swal from 'sweetalert2';
+import { Observable, take } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectItems, selectTotal } from '../store/items.selectors';
+import {
+  addItem,
+  initializeState,
+  loadCart,
+  reduceItem,
+  removeItem,
+  saveCart,
+} from '../store/items.actions';
+import { Product } from '../models/product';
+import { selectProductById } from '../store/catalog.selectors';
+import { initializeCatalog } from '../store/catalog.actions';
+import { load } from '../store/catalog.actions';
+import { ItemsState } from '../store/items.reducer';
 
 @Component({
   selector: 'cart-app',
@@ -13,19 +29,27 @@ import Swal from 'sweetalert2';
   templateUrl: './cart-app.html',
 })
 export class CartAppComponent implements OnInit {
-  items: CartItem[] = [];
-  total: number = 0;
+  items$: Observable<CartItem[]>;
+  total$: Observable<number>;
 
   constructor(
     private readonly router: Router,
     private readonly sharingDataService: SharingDataService,
-    private readonly service: ProductService
-  ) {}
+    private readonly service: ProductService,
+    private readonly store: Store<{ item: ItemsState }>,
+    private readonly catalog: Store
+  ) {
+    //    this.store.dispatch(initializeState({ items: items, total: totalCart }));
+    this.store.dispatch(loadCart());
+    this.catalog.dispatch(load());
+    this.items$ = this.store.select(selectItems);
+    this.total$ = this.store.select(selectTotal);
+    this.items$.subscribe((items) => {
+      this.store.dispatch(saveCart());
+    });
+  }
 
   ngOnInit(): void {
-    this.items = this.service.getCart();
-    this.calculateTotal();
-
     this.addProduct();
     this.reduceProduct();
     this.removeProduct();
@@ -33,27 +57,21 @@ export class CartAppComponent implements OnInit {
 
   addProduct(): void {
     this.sharingDataService.addEventEmitter.subscribe((id) => {
-      console.log(`Add ${id}`);
-
-      this.items = this.service.addProduct(id);
-      this.calculateTotal();
-
-      this.router.navigate(['/cart'], {
-        state: { items: this.items, total: this.total },
+      //lo añadimos al store
+      const product$: Observable<Product | undefined> = this.catalog.select(
+        selectProductById(id)
+      );
+      product$.pipe(take(1)).subscribe((product: Product | undefined) => {
+        if (product) this.store.dispatch(addItem({ product }));
       });
 
-      Swal.fire({
-        title: 'Shopping cart',
-        text: 'Producto añadido',
-        icon: 'success',
-      });
+      this.router.navigate(['/cart']);
     });
   }
 
   reduceProduct() {
-    this.sharingDataService.reduceEventEmitter.subscribe((id) => {
-      this.items = this.service.reduceProduct(id);
-      this.calculateTotal();
+    this.sharingDataService.reduceEventEmitter.subscribe((id: number) => {
+      this.store.dispatch(reduceItem({ id }));
     });
   }
   removeProduct() {
@@ -68,29 +86,15 @@ export class CartAppComponent implements OnInit {
         confirmButtonText: 'Yes, delete it!',
       }).then((result) => {
         if (result.isConfirmed) {
-          this.items = this.service.removeProduct(id);
-          this.calculateTotal();
+          this.store.dispatch(removeItem({ id }));
           Swal.fire({
             title: 'Deleted!',
             text: 'Your file has been deleted.',
             icon: 'success',
           });
-          this.router
-            .navigateByUrl('/', { skipLocationChange: true })
-            .then(() => {
-              this.router.navigate(['/cart'], {
-                state: { items: this.items, total: this.total },
-              });
-            });
+          this.router.navigate(['/cart']);
         }
       });
     });
-  }
-  calculateTotal() {
-    this.total = this.items.reduce(
-      (acc, item) => acc + item.product.price * item.quantity,
-      0
-    );
-    this.sharingDataService.totalEventEmitter.emit(this.total);
   }
 }
