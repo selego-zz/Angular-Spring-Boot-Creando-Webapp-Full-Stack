@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { UserAppComponent } from './components/user-app';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [UserAppComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
 })
 export class App {
   protected readonly title = signal('5-user-app');
