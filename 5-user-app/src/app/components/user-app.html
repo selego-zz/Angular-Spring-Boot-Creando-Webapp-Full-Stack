@@ -1,12 +1,11 @@
 <div class="container my-4">
   <h3> {{title}} </h3>
-  <div class="row">
-    <div class="col">
-      <user-form (userEmitter)="addUser($event)" />
-    </div>
-    <div class="col">
-      <users [users]="users" (removeEvent)="removeUser($event)" />
-
-    </div>
-  </div>
+  <button class="btn btn-primary" (click)="setFormOpen()">{{formOpen?'Cerrar formulario':'Crear Usuario'}}</button>
+  <users [users]="users" (removeEvent)="removeUser($event)" (editEvent)="editUser($event)" />
 </div>
+
+@if(formOpen){
+<div class="abrir-modal animacion fadeIn">
+  <user-form [user]="editingUser" (userEmitter)="addUser($event)" (closeEventEmitter)="setFormOpen()" />
+</div>
+}
