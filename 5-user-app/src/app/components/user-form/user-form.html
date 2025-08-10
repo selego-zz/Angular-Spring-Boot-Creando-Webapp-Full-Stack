@@ -54,6 +54,9 @@
     }
   </div>
   <div>
-    <button type="submit" class="btn btn-primary my-2 mx-2" [disabled]="userform.invalid">Create</button>
+    <button type="submit" class="btn btn-primary my-2 mx-2" [disabled]="userform.invalid">
+      {{user.id>0?'Actualizar':'Grabar'}} </button>
+    <button type="button" class="btn btn-secondary my-2 mx-2" (click)="OnClear(userform)">
+      Cancelar </button>
   </div>
 </form>

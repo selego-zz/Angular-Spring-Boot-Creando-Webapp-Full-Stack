@@ -2,10 +2,10 @@
   <h3> {{title}} </h3>
   <div class="row">
     <div class="col">
-      <user-form (userEmitter)="addUser($event)" />
+      <user-form [user]="editingUser" (userEmitter)="addUser($event)" />
     </div>
     <div class="col">
-      <users [users]="users" (removeEvent)="removeUser($event)" />
+      <users [users]="users" (removeEvent)="removeUser($event)" (editEvent)="editUser($event)" />
 
     </div>
   </div>
