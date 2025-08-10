@@ -1,9 +1,12 @@
 <div class="container my-4">
   <h3> {{title}} </h3>
+  <button class="btn btn-primary" (click)="setFormOpen()">{{formOpen?'Cerrar formulario':'Crear Usuario'}}</button>
   <div class="row">
+    @if(formOpen){
     <div class="col">
       <user-form [user]="editingUser" (userEmitter)="addUser($event)" />
     </div>
+    }
     <div class="col">
       <users [users]="users" (removeEvent)="removeUser($event)" (editEvent)="editUser($event)" />
 

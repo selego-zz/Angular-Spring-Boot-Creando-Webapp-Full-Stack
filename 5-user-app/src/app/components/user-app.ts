@@ -14,6 +14,7 @@ export class UserAppComponent implements OnInit {
   title: string = 'Listado de usuarios';
   users: User[] = [];
   editingUser: User = new User();
+  formOpen: boolean = false;
 
   constructor(private readonly service: UserService) {}
   ngOnInit(): void {
@@ -49,9 +50,11 @@ export class UserAppComponent implements OnInit {
         icon: 'success',
       });
     }
+    this.formOpen = false;
   }
 
   editUser(user: User) {
+    this.formOpen = true;
     this.editingUser = { ...user };
   }
 
@@ -62,5 +65,9 @@ export class UserAppComponent implements OnInit {
       text: 'Usuario eliminado con éxito!',
       icon: 'success',
     });
+  }
+
+  setFormOpen() {
+    this.formOpen = !this.formOpen;
   }
 }
