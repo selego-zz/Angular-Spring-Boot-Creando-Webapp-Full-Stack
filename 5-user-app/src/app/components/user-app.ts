@@ -1,21 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../models/user';
 import { UserService } from '../services/userService';
-import { UsersComponent } from './users/users';
-import { UserFormComponent } from './user-form/user-form';
 import Swal from 'sweetalert2';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './navbar/navbar';
 
 @Component({
   selector: 'user-app',
-  imports: [UsersComponent, UserFormComponent],
+  imports: [RouterOutlet, NavbarComponent],
   templateUrl: './user-app.html',
   styleUrls: ['./user-app.css'],
 })
 export class UserAppComponent implements OnInit {
-  title: string = 'Listado de usuarios';
   users: User[] = [];
   editingUser: User = new User();
-  formOpen: boolean = false;
 
   constructor(private readonly service: UserService) {}
   ngOnInit(): void {
@@ -51,11 +49,9 @@ export class UserAppComponent implements OnInit {
         icon: 'success',
       });
     }
-    this.formOpen = false;
   }
 
   editUser(user: User) {
-    this.formOpen = true;
     this.editingUser = { ...user };
   }
 
@@ -66,9 +62,5 @@ export class UserAppComponent implements OnInit {
       text: 'Usuario eliminado con éxito!',
       icon: 'success',
     });
-  }
-
-  setFormOpen() {
-    this.formOpen = !this.formOpen;
   }
 }

@@ -10,7 +10,6 @@ import { User } from '../../models/user';
 export class UserFormComponent {
   @Input() user: User;
   @Output() userEmitter: EventEmitter<User> = new EventEmitter();
-  @Output() closeEventEmitter: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {
     this.user = new User();
@@ -28,9 +27,5 @@ export class UserFormComponent {
     this.user = new User();
     userForm.reset();
     userForm.resetForm();
-  }
-
-  onClose() {
-    this.closeEventEmitter.emit();
   }
 }

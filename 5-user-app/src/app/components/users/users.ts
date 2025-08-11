@@ -1,16 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from '../../models/user';
 import Swal from 'sweetalert2';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'users',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './users.html',
 })
 export class UsersComponent {
   @Input() users: User[] = [];
   @Output() removeEvent: EventEmitter<number> = new EventEmitter();
   @Output() editEvent: EventEmitter<User> = new EventEmitter();
+
+  title: string = 'Listado de usuarios';
 
   onEdit(editingUser: User) {
     this.editEvent.emit(editingUser);
