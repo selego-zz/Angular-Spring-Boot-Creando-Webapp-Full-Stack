@@ -1,0 +1,82 @@
+<div class="modal" tabindex="-1" style="display: block;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{user.id>0?'Editar':'Crear'}} usuario</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" (click)="onClose()">
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        <form (ngSubmit)="OnSubmit(userform)" #userform="ngForm">
+          <div>
+            <input placeholder="Name" name="name" [(ngModel)]="user.name" class="form-control my-2 mx-2" required
+              #name="ngModel" />
+            @if(name.invalid && (name.dirty || name.touched)){
+            @if(name.errors!['required']){
+            <div class="text-danger">Nombre es requerido</div>
+            }
+            }
+          </div>
+          <div>
+            <input placeholder="Lastname" name="lastname" [(ngModel)]="user.lastname" class="form-control my-2 mx-2"
+              required #lastname="ngModel" />
+            @if(lastname.invalid && (lastname.dirty || lastname.touched)){
+            @if(lastname.errors!['required']){
+            <div class="text-danger">Apellido es requerido</div>
+            }
+            }
+          </div>
+          <div>
+            <input placeholder="Email" name="email" [(ngModel)]="user.email" class="form-control my-2 mx-2" required
+              email type="email" #email="ngModel" />
+            @if(email.invalid && (email.dirty || email.touched)){
+            @if(email.errors!['required']){
+            <div class="text-danger">Correo es requerido</div>
+            }
+            @else if (email.errors!['email']) {
+            <div class="text-danger">Formato incorrecto</div>
+            }
+            }
+          </div>
+          <div>
+            <input placeholder="Username" name="username" [(ngModel)]="user.username" class="form-control my-2 mx-2"
+              required minlength="6" #username="ngModel" />
+            @if(username.invalid && (username.dirty || username.touched)){
+            @if(username.errors!['required']){
+            <div class="text-danger">Usuario es requerido</div>
+            }
+            @else if (username.errors!['minlength']) {
+            <div class="text-danger">Campo demasiado corto</div>
+            }
+            }
+          </div>
+          <div>
+            <input placeholder="Password" name="password" type="password" [(ngModel)]="user.password"
+              class="form-control my-2 mx-2" required minlength="6" #password="ngModel" />
+            @if(password.invalid && (password.dirty || password.touched)){
+            @if(password.errors!['required']){
+            <div class="text-danger">Contraseña es requerido</div>
+            }
+            @else if (password.errors!['minlength']) {
+            <div class="text-danger">Campo demasiado corto</div>
+            }
+            }
+          </div>
+          <div>
+            <button type="submit" class="btn btn-primary my-2 mx-2" [disabled]="userform.invalid">
+              {{user.id>0?'Actualizar':'Grabar'}} </button>
+            <button type="button" class="btn btn-secondary my-2 mx-2" (click)="OnClear(userform)">
+              Cancelar </button>
+          </div>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="onClose()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
