@@ -41,9 +41,12 @@ export class UserAppComponent implements OnInit {
       console.log(user);
 
       if (user.id > 0) {
-        this.users = this.users.map((oldUser) =>
-          oldUser.id == user.id ? { ...user } : oldUser
-        );
+        this.service.update(user).subscribe((updatedUser) => {
+          this.users = this.users.map((oldUser) =>
+            oldUser.id == updatedUser.id ? { ...updatedUser } : oldUser
+          );
+        });
+
         this.router.navigate(['/users'], {
           state: { users: this.users },
         });
@@ -53,14 +56,10 @@ export class UserAppComponent implements OnInit {
           icon: 'success',
         });
       } else {
-        user.id =
-          this.users?.length > 0
-            ? this.users.reduce(
-                (prev, current) => (prev.id > current.id ? prev : current),
-                this.users[0]
-              ).id + 1
-            : 0;
-        this.users.push(user);
+        this.service.create(user).subscribe((newUser) => {
+          this.users.push(newUser);
+        });
+
         this.router.navigate(['/users'], {
           state: { users: this.users },
         });

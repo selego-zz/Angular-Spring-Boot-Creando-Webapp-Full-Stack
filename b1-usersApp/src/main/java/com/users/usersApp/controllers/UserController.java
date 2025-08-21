@@ -68,11 +68,11 @@ public class UserController {
 
 	*/		
 			User userDb = userOptional.orElseThrow();
-			if(user.getEmail()    != null) userDb.setEmail   (user.getEmail());
-			if(user.getLastname() != null) userDb.setLastname(user.getLastname());
-			if(user.getName()     != null) userDb.setName    (user.getName());
-			if(user.getPassword() != null) userDb.setPassword(user.getPassword());
-			if(user.getUsername() != null) userDb.setUsername(user.getUsername());
+			userDb.setEmail   (user.getEmail());
+			userDb.setLastname(user.getLastname());
+			userDb.setName    (user.getName());
+			userDb.setPassword(user.getPassword());
+			userDb.setUsername(user.getUsername());
 			return ResponseEntity.ok(service.save(userDb));
 		}
 
