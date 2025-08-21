@@ -3,7 +3,6 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { User } from '../../models/user';
 import { SharhingDataService } from '../../services/sharhing-data-service';
 import { ActivatedRoute } from '@angular/router';
-import { UserService } from '../../services/userService';
 
 @Component({
   selector: 'user-form',
@@ -15,17 +14,20 @@ export class UserFormComponent implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly sharhingDataService: SharhingDataService,
-    private readonly service: UserService
+    private readonly sharhingDataService: SharhingDataService
   ) {
     this.user = new User();
   }
   ngOnInit(): void {
+    this.sharhingDataService.selectedUserEvent.subscribe(
+      (newUser) => (this.user = newUser)
+    );
+
     this.route.paramMap.subscribe((params) => {
       const id: number = +(params.get('id') || '-1');
 
       if (id >= 0) {
-        this.service.findById(id).subscribe((newUser) => (this.user = newUser));
+        this.sharhingDataService.findUserByIdEvent.emit(id);
       }
     });
   }

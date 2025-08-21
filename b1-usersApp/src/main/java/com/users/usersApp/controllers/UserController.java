@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.users.usersApp.entities.User;
 import com.users.usersApp.services.UserService;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -66,11 +68,11 @@ public class UserController {
 
 	*/		
 			User userDb = userOptional.orElseThrow();
-			if(user.getEmail()    != null) userDb.setEmail   (user.getEmail());
-			if(user.getLastname() != null) userDb.setLastname(user.getLastname());
-			if(user.getName()     != null) userDb.setName    (user.getName());
-			if(user.getPassword() != null) userDb.setPassword(user.getPassword());
-			if(user.getUsername() != null) userDb.setUsername(user.getUsername());
+			userDb.setEmail   (user.getEmail());
+			userDb.setLastname(user.getLastname());
+			userDb.setName    (user.getName());
+			userDb.setPassword(user.getPassword());
+			userDb.setUsername(user.getUsername());
 			return ResponseEntity.ok(service.save(userDb));
 		}
 
