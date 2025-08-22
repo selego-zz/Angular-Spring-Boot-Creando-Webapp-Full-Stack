@@ -48,6 +48,7 @@ public class UserController {
 
 	@PostMapping
 	public ResponseEntity<User> create(@RequestBody User user) {
+		user.setId(null);
 		return ResponseEntity
 				.status(HttpStatus.CREATED)
 				.body(service.save(user));

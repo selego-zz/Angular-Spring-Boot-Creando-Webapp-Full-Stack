@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { User } from '../../models/user';
 import Swal from 'sweetalert2';
 import { Router, RouterModule } from '@angular/router';
@@ -10,7 +10,7 @@ import { SharhingDataService } from '../../services/sharhing-data-service';
   imports: [RouterModule],
   templateUrl: './users.html',
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit {
   users: User[] = [];
 
   title: string = 'Listado de usuarios';
@@ -19,11 +19,8 @@ export class UsersComponent {
     private readonly router: Router,
     private readonly service: UserService,
     private readonly sharingDataService: SharhingDataService
-  ) {
-    if (router.getCurrentNavigation()?.extras.state) {
-      this.users = router.getCurrentNavigation()?.extras.state!['users'];
-    }
-
+  ) {}
+  ngOnInit(): void {
     if (!this.users || this.users.length < 1) {
       this.service.findAll().subscribe((users) => {
         this.users = users;
@@ -32,9 +29,7 @@ export class UsersComponent {
   }
 
   onEdit(editingUser: User) {
-    this.router.navigate(['/users/edit', editingUser.id], {
-      state: { editingUser },
-    });
+    this.router.navigate(['/users/edit', editingUser.id]);
   }
 
   onRemove(id: number) {

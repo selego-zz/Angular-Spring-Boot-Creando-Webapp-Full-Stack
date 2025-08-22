@@ -42,14 +42,12 @@ export class UserAppComponent implements OnInit {
 
       if (user.id > 0) {
         this.service.update(user).subscribe((updatedUser) => {
-          this.users = this.users.map((oldUser) =>
-            oldUser.id == updatedUser.id ? { ...updatedUser } : oldUser
-          );
+          this.users = this.users.map((oldUser) => {
+            return oldUser.id == updatedUser.id ? { ...updatedUser } : oldUser;
+          });
+          this.router.navigate(['/users']);
         });
-
-        this.router.navigate(['/users'], {
-          state: { users: this.users },
-        });
+        setTimeout(() => {}, 500);
         Swal.fire({
           title: 'Usuario editado!',
           text: 'Usuario actualizado con éxito!',
@@ -58,11 +56,9 @@ export class UserAppComponent implements OnInit {
       } else {
         this.service.create(user).subscribe((newUser) => {
           this.users.push(newUser);
+          this.router.navigate(['/users']);
         });
 
-        this.router.navigate(['/users'], {
-          state: { users: this.users },
-        });
         Swal.fire({
           title: 'Usuario añadido!',
           text: 'Usuario añadido con éxito!',
@@ -74,19 +70,19 @@ export class UserAppComponent implements OnInit {
 
   removeUser() {
     this.sharingDataService.removeEvent.subscribe((id: number) => {
-      this.users = this.users.filter((user) => user.id != id);
-      Swal.fire({
-        title: 'Usuario eliminado!',
-        text: 'Usuario eliminado con éxito!',
-        icon: 'success',
-      });
-      this.router
-        .navigate(['/users/create'], { skipLocationChange: true })
-        .then(() => {
-          this.router.navigate(['/users'], {
-            state: { users: this.users },
-          });
+      this.service.delete(id).subscribe(() => {
+        this.users = this.users.filter((user) => user.id != id);
+        Swal.fire({
+          title: 'Usuario eliminado!',
+          text: 'Usuario eliminado con éxito!',
+          icon: 'success',
         });
+        this.router
+          .navigate(['/users/create'], { skipLocationChange: true })
+          .then(() => {
+            this.router.navigate(['/users']);
+          });
+      });
     });
   }
 }
