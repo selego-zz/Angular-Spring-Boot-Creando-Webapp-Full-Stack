@@ -14,6 +14,7 @@ import { SharhingDataService } from '../services/sharhing-data-service';
 })
 export class UserAppComponent implements OnInit {
   users: User[] = [];
+  errors: any = {};
 
   constructor(
     private readonly router: Router,
@@ -41,28 +42,39 @@ export class UserAppComponent implements OnInit {
       console.log(user);
 
       if (user.id > 0) {
-        this.service.update(user).subscribe((updatedUser) => {
-          this.users = this.users.map((oldUser) => {
-            return oldUser.id == updatedUser.id ? { ...updatedUser } : oldUser;
-          });
-          this.router.navigate(['/users']);
-        });
-        setTimeout(() => {}, 500);
-        Swal.fire({
-          title: 'Usuario editado!',
-          text: 'Usuario actualizado con éxito!',
-          icon: 'success',
+        this.service.update(user).subscribe({
+          next: (updatedUser) => {
+            this.users = this.users.map((oldUser) => {
+              return oldUser.id == updatedUser.id
+                ? { ...updatedUser }
+                : oldUser;
+            });
+            this.router.navigate(['/users']);
+            setTimeout(() => {}, 500);
+            Swal.fire({
+              title: 'Usuario editado!',
+              text: 'Usuario actualizado con éxito!',
+              icon: 'success',
+            });
+          },
+          error: (err) => {
+            this.sharingDataService.errorsUserFormEventEmitter.emit(err.error);
+          },
         });
       } else {
-        this.service.create(user).subscribe((newUser) => {
-          this.users.push(newUser);
-          this.router.navigate(['/users']);
-        });
-
-        Swal.fire({
-          title: 'Usuario añadido!',
-          text: 'Usuario añadido con éxito!',
-          icon: 'success',
+        this.service.create(user).subscribe({
+          next: (newUser) => {
+            this.users.push(newUser);
+            this.router.navigate(['/users']);
+            Swal.fire({
+              title: 'Usuario añadido!',
+              text: 'Usuario añadido con éxito!',
+              icon: 'success',
+            });
+          },
+          error: (err) => {
+            this.sharingDataService.errorsUserFormEventEmitter.emit(err.error);
+          },
         });
       }
     });

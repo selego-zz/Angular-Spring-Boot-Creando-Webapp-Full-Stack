@@ -11,6 +11,9 @@ export class SharhingDataService {
     new EventEmitter();
   private readonly _selectedUserEvent: EventEmitter<User> = new EventEmitter();
 
+  private readonly _errorsUserFormEventEmitter: EventEmitter<any> =
+    new EventEmitter();
+
   get userEmitter(): EventEmitter<User> {
     return this._userEmitter;
   }
@@ -22,5 +25,8 @@ export class SharhingDataService {
   }
   get selectedUserEvent(): EventEmitter<User> {
     return this._selectedUserEvent;
+  }
+  get errorsUserFormEventEmitter(): EventEmitter<any> {
+    return this._errorsUserFormEventEmitter;
   }
 }
