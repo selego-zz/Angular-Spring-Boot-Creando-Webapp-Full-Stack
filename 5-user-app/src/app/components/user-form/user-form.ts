@@ -12,6 +12,7 @@ import { UserService } from '../../services/userService';
 })
 export class UserFormComponent implements OnInit {
   user: User;
+  errors: any = {};
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -28,6 +29,9 @@ export class UserFormComponent implements OnInit {
         this.service.findById(id).subscribe((newUser) => (this.user = newUser));
       }
     });
+    this.sharhingDataService.errorsUserFormEventEmitter.subscribe(
+      (err) => (this.errors = err)
+    );
   }
 
   OnClear(userForm: NgForm) {
@@ -36,7 +40,7 @@ export class UserFormComponent implements OnInit {
     userForm.resetForm();
   }
   OnSubmit(userForm: NgForm): void {
-    if (!userForm.valid) return;
+    //    if (!userForm.valid) return;
 
     console.log(this.user);
     this.sharhingDataService.userEmitter.emit(this.user);
